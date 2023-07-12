@@ -27,40 +27,30 @@ app.listen(port, () => {
 // POST: localhost:3000/api/users/login  // 로그인 { email, password } (성공)
 // GET: localhost:3000/api/users/:userId  // 회원조회 (성공)
 // PATCH: localhost:3000/api/users/:userId  // 회원정보수정 { nickname, password, confirmPassword, age, gender, profileImage } (성공)
-// DELETE: localhost:3000/api/users/:userId  // 회원탈퇴 { email, password }
+// DELETE: localhost:3000/api/users/:userId  // 회원탈퇴 { email, password }  (성공)
 
 // GET: localhost:3000/api/posts      // 게시글 목록조회 (성공)
-// GET: localhost:3000/api/posts/:postId // 게시글 상세조회
-// POST: localhost:3000/api/posts       //게시글 생성 { title, content }
-// PUT: localhost:3000/api/posts/:postId // 게시글 수정 { title, content }
-// DELETE: localhost:3000/api/posts/:postId  // 게시글 삭제
+// GET: localhost:3000/api/posts/:postId // 게시글 상세조회 (성공)
+// POST: localhost:3000/api/posts       //게시글 생성 { title, content } (성공)
+// PUT: localhost:3000/api/posts/:postId // 게시글 수정 { title, content } (성공)
+// DELETE: localhost:3000/api/posts/:postId  // 게시글 삭제 (성공)
 
-// POST: localhost:3000/api/posts/:postId/like   // 게시글 좋아요
-// DELETE: localhost:3000/api/posts/:postId/like   // 게시글 좋아요 취소
+// POST: localhost:3000/api/posts/:postId/like   // 게시글 좋아요 (성공)
+// DELETE: localhost:3000/api/posts/:postId/like   // 게시글 좋아요 취소 (성공)
+ 
+// POST: localhost:3000/api/posts/:postId/report // 게시글 신고 { content } (성공)
+// DELETE: localhost:3000/api/posts/:postId/report // 게시글 신고 취소 (성공)
 
-// POST: localhost:3000/api/posts/:postId/report // 게시글 신고 { content }
-// DELETE: localhost:3000/api/posts/:postId/report // 게시글 신고 취소
+// GET: localhost:3000/api/posts/:postId/comments  // 댓글 조회 (성공)
+// POST: localhost:3000/api/posts/:postId/comments  // 댓글 생성 { comment } (성공)
+// PUT: localhost:3000/api/posts/:postId/comments/:commentId  // 댓글 수정 { comment } (성공)
+// DELETE: localhost:3000/api/posts/:postId/comments/:commentId  // 댓글 삭제 (성공)
 
-// GET: localhost:3000/api/posts/:postId/comments  // 댓글 조회
-// POST: localhost:3000/api/posts/:postId/comments  // 댓글 생성 { comment }
-// PUT: localhost:3000/api/posts/:postId/comments/:commentId  // 댓글 수정 { comment }
-// DELETE: localhost:3000/api/posts/:postId/comments/:commentId  // 댓글 삭제
+// POST: localhost:3000/api/posts/:postId/comments/:commentId/like // 댓글 좋아요  (성공)
+// DELETE: localhost:3000/api/posts/:postId/comments/:commentId/like // 댓글 좋아요 취소 (성공)
 
-// POST: localhost:3000/api/posts/:postId/comments/:commentId/like // 댓글 좋아요 
-// DELETE: localhost:3000/api/posts/:postId/comments/:commentId/like // 댓글 좋아요 취소
-
-// POSt: localhost:3000/api/posts/:postId/comments/:commentId/report  // 댓글 신고 { content }
-// DELETE: localhost:3000/api/posts/:postId/comments/:commentId/report  // 댓글 신고취소
-
-
-
-
-
-
-
-
-
-
+// POSt: localhost:3000/api/posts/:postId/comments/:commentId/report  // 댓글 신고 { content } (성공)
+// DELETE: localhost:3000/api/posts/:postId/comments/:commentId/report  // 댓글 신고취소 (성공)
 
 
 

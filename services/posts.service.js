@@ -43,15 +43,15 @@ class PostService {
 
 
     // 3. 게시글 생성 createPost
-    createPost = async (userId, title, content) => {
-        const createPostData = await this.postRepository.createPost(userId, title, content);
-        if(!userId) throw new Error('로그인 후 이용할 수 있는 기능입니다.');
+    createPost = async (UserId, title, content) => {
+        const createPostData = await this.postRepository.createPost(title, content, UserId);
+        if(!UserId) throw new Error('로그인 후 이용할 수 있는 기능입니다.');
         else if (!title) throw new Error('제목을 입력해주세요.');
         else if (!content) throw new Error('내용을 입력해주세요.');
 
         return {
             postId: createPostData.postId,
-            userId: createPostData.userId,
+            UserId: createPostData.UserId,
             title: createPostData.title,
             content: createPostData.content,
             createdAt: createPostData.createdAt,
@@ -68,7 +68,7 @@ class PostService {
         else if (!title) throw new Error("제목을 입력해주세요.")
         else if (!content) throw new Error("내용을 입력해주세요.")
 
-        await this.PostRepository.updatePost(title, content)
+        await this.postRepository.updatePost(postId, title, content)
         const updatePost = await this.postRepository.findPostById(postId);
         return {
             postId: updatePost.postId,

@@ -1,4 +1,5 @@
 const UsersRepository = require('../repositories/users.repository');
+const bcrypt = require("bcrypt");
 const JsonWebToken = require("jsonwebtoken");
 
 
@@ -13,7 +14,7 @@ class UserService {
             
         const emailCheck = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; // 이메일 정규식
         const passwordCheck = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{4,}$/;  // 비밀번호 정규식 (최소 4자 이상의 영문 대소문자 및 숫자)
-            
+   
         if (!email) throw new Error('이메일을 입력해주세요.');
         else if (!password) throw new Error('비밀번호를 입력해주세요.');
         else if (!confirmPassword) throw new Error('확인 비밀번호를 입력해주세요.');
@@ -39,7 +40,9 @@ class UserService {
             profileImage: createUserData.profileImage,
             createdAt:createUserData.createdAt,
             updatedAt:createUserData.updatedAt
-            }};
+            }          
+
+        }
             
 
 
@@ -58,7 +61,8 @@ class UserService {
         // return Token;
         return {
             email: loginData.email,
-            password: loginData.password
+            password: loginData.password,
+            userId: loginData.userId
         }
             // Token: Token
             // }};

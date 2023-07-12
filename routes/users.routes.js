@@ -1,7 +1,9 @@
 const express = require('express');
+const cookieParser = require("cookie-parser");
+const Authmiddleware = require("../middlewares/auth-middleware.js") //사용자인증 미들웨어 
+
 const router = express.Router();
-
-
+router.use(cookieParser());
 // 위에서 대문자U로 컨트롤러 경로를 설정하고, 아래에서 소문자u로 함수실행.
 const UsersController = require('../controllers/users.controller')
 const usersController = new UsersController();

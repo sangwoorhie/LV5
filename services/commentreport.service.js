@@ -8,6 +8,7 @@ class CommentReportService {
     commentRepository = new CommentRepository();
     postRepository = new PostRepository();
 
+
     // 1. 댓글 신고
     createReport = async (postId, commentId, userId, content) => {
 
@@ -42,16 +43,16 @@ class CommentReportService {
         const findComment = await this.commentRepository.findCommentById(commentId);
         if (!findComment) throw new Error('댓글이 존재하지 않습니다.');
         
-        await this.commentReportRepository.deleteReport(postId, commentId, userId)
+        const destroy = await this.commentReportRepository.deleteReport(postId, commentId, userId)
         const deleteReport = await this.commentRepository.findCommentById(commentId);
 
         return {
-            postId: createReport.postId,
-            commentId: createReport.commentId,
-            content: createReport.content,
-            reportUserId: createReport.reportUserId,
-            createdAt: createReport.createdAt,
-            updatedAt: createReport.updatedAt
+            postId: destroy.postId,
+            commentId: destroy.commentId,
+            content: destroy.content,
+            reportUserId: destroy.reportUserId,
+            createdAt: destroy.createdAt,
+            updatedAt: destroy.updatedAt
         }};
 
 }

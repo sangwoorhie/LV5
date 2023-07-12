@@ -1,7 +1,9 @@
 const PostLikeRepository = require('../repositories/postlikes.repository');
+const PostRepository = require('../repositories/posts.repository')
 
 class PostLikeService {
     postLikeRepository = new PostLikeRepository();
+    postRepository = new PostRepository();
 
     // // 1.게시글 좋아요 조회 findPostById
     // findPostById = async (postId) => {
@@ -20,25 +22,25 @@ class PostLikeService {
     // 2. 게시글 좋아요 생성 createLike
     createLike = async (postId, userId) => {
         const createLike = await this.postLikeRepository.createLike(postId, userId)
-        if(!userId) throw new Error('로그인 후 이용할 수 있는 기능입니다.');
-        else if (!postId) throw new Error('게시글이 존재하지 않습니다.');
-    
-        // 이미 좋아요누른경우 못누르게 만들어야 함
+        if (!userId) {throw new Error('로그인 후 이용할 수 있는 기능입니다.')};
+        if (!postId) {throw new Error('게시글이 존재하지 않습니다.')};
+        // if (createLike.clickedUser) {throw new Error('이미 좋아요를 누른 게시글입니다.')};
 
         return {
-            likedId: createLike.likedId,
-            postId: createLike.postId,
-            UserId: createLike.UserId,
-            createdAt: createLike.createdAt
+            likedId: createLike.createPostLike.likedId,
+            postId: createLike.createPostLike.postId,
+            UserId: createLike.createPostLike.UserId,
+            createdAt: createLike.createPostLike.createdAt,
+            likeCount: createLike.likeCount.likeCount
         }};
 
     
 
     // 3. 게시글 좋아요 취소 deleteLike
     deleteLike = async (postId, userId) => {
-        const findPost = await this.postLikeRepository.fintPostById(postId)
-        if (!findPost) throw new Error("게시글이 존재하지 않습니다.")
-        else if(!userId) throw new Error("좋아요 취소 권한이 없습니다.")
+        const findPost = await this.postRepository.findPostById(postId)
+        if (!findPost) throw new Error("게시글이 존재하지 않습니다.");
+        if(!userId) throw new Error("좋아요 취소 권한이 없습니다.")
 
         await this.postLikeRepository.deleteLike(postId, userId);
 

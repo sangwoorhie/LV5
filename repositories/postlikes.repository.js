@@ -1,4 +1,5 @@
 const { Posts, PostLikes } = require('../models') // DB에 접근
+const { Op } = require("sequelize");
 
 class PostLikeRepository {
 
@@ -11,9 +12,16 @@ class PostLikeRepository {
 
 
 // 2. 게시글 좋아요 생성 createLike
-createLike = async (postId, userId) => {
-    const createPostLike = await PostLikes.create({postId, userId})
-    return createPostLike;
+createLike = async (postId, UserId) => {
+    const createPostLike = await PostLikes.create({postId, UserId})
+    const clickedUser = await PostLikes.findOne({ where: {[Op.and]: [{postId: Number(postId)}, {UserId: Number(UserId)}]}});
+    const likeCount = await PostLikes.count({where: {postId: Number(postId)}});
+
+    return {
+        createPostLike,
+        clickedUser,
+        likeCount
+    };
 }
 
 

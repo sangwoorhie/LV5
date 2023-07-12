@@ -1,6 +1,7 @@
 // 저장소 계층 (Repository Layer): Repository 클래스에서 시퀄라이즈 매소드를 이용해 데이터 조회 및 생성.
 
 const { Posts, PostLikes, Users } = require('../models') // DB에 접근
+const sequelize = require("sequelize");
 
 class PostRepository {
 
@@ -14,14 +15,17 @@ class PostRepository {
 
     // 2. 게시글 상세조회 findPostById 
     findPostById = async (postId) => {
+        console.log("postId2", postId)
+
         const post = await Posts.findOne({
             raw: true,
             attributes: ["postId", "title", "content", "createdAt", "updatedAt", [sequelize.fn("COUNT", sequelize.col("PostLikes.postId")), "likes"]],
-            include: [{ model: Users, as:'nickname', attributes: ['nickname']}, { model: PostLikes, as:'Likes', attributes: ['postId']}],
+            include: [{ model: Users, as:['nickname'], attributes: ['nickname']}, { model: PostLikes, as:['Likes'], attributes: ['postId']}],
             where: { postId },
             // group: ["Posts.postId"],
             order: [["createdAt", "DESC"]],
             });
+
         // const post = await Posts.findByPk(postId) // Primary Key로 찾기
         // const likes = await PostLikes.count({where: {postId: Number(postId)}});
         // post.likes = likes
@@ -31,8 +35,8 @@ class PostRepository {
         
 
     // 3. 게시글 생성 createPost
-    createPost = async (title, content) => {
-        const createPostData = await Posts.create({ title, content })
+    createPost = async (title, content, UserId) => {
+        const createPostData = await Posts.create({ title, content, UserId })
         return createPostData;
     }
 

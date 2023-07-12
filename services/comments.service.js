@@ -19,6 +19,7 @@ class CommentService {
 
     // 2. 댓글 생성 createComment
     createComment = async (postId, userId, comment) => {
+        console.log("postId1", postId)
         const findPost = await this.postRepository.findPostById(postId)
         if (!findPost) {throw new Error('게시글이 존재하지 않습니다.')}; // 실행되면안됨
 

@@ -1,7 +1,10 @@
 const PostReportRepository = require('../repositories/postreport.repositories');
+const PostRepository = require('../repositories/posts.repository')
+
 
 class PostReportService {
     postReportRepository = new PostReportRepository();
+    postRepository = new PostRepository();
 
 
     // 1.게시글 신고
@@ -25,17 +28,17 @@ class PostReportService {
 
     // 2. 게시글 신고 취소
     deleteReport = async(postId, userId) => {
-        const findPost = await this.postReportRepository.findPostById(postId)
+        const findPost = await this.postRepository.findPostById(postId)
         if (!findPost) throw new Error("게시글이 존재하지 않습니다.")
         else if(!userId) throw new Error("게시글 신고 취소 권한이 없습니다.")
 
-        await this.postReportRepository.deleteReport(postId, userId)
+        const deleteReport = await this.postReportRepository.deleteReport(postId, userId)
         return {
-            PostId: createReport.PostId,
-            content: createReport.content,
-            reportUserId: createReport.reportUserId,
-            createdAt: createReport.createdAt,
-            updatedAt: createReport.updatedAt
+            PostId: deleteReport.PostId,
+            content: deleteReport.content,
+            reportUserId: deleteReport.reportUserId,
+            createdAt: deleteReport.createdAt,
+            updatedAt: deleteReport.updatedAt
         }};
     }
 

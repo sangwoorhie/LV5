@@ -1,10 +1,12 @@
 const UserService = require('../services/users.service');
 const UsersRepository = require('../repositories/users.repository');
 const JsonWebToken = require("jsonwebtoken");
+const secretKey = "customized-secret-key";
 
 
 class UsersController {
     userService = new UserService();
+    userRepository = new UsersRepository();
 
 
     // 1. 회원가입 signupUser
@@ -15,13 +17,15 @@ class UsersController {
     }
 
 
+
     // 2. 로그인 loginUser
     loginUser = async(req, res, next) =>{
         const { email, password } = req.body;
-        const Login = await this.userService.loginUser(email, password);
-        
+        const user = await this.userService.loginUser(email, password);
+        console.log("user", user);
+
         // 쿠키발급
-        const Token = JsonWebToken.sign({ userId: Login.userId }, "customized-secret-key");
+        const Token = await JsonWebToken.sign({ userId: user.userId }, secretKey);
         res.cookie("Authorization", `Bearer ${Token}`);
         res.status(200).json({message: "로그인이 완료되었습니다."});
     }

@@ -1,4 +1,5 @@
-const { Comments, CommentLikes } = require('../models') // DB에 접근
+const { Comments, CommentLikes, Users, PostLikes } = require('../models') // DB에 접근
+const sequelize = require("sequelize");
 
 class CommentRepository {
 
@@ -7,7 +8,7 @@ class CommentRepository {
         const comments = await Comments.findAll({
             raw: true,
             attribute: ["commentId", "comment", "createdAt", "updatedAt", [sequelize.fn("COUNT", sequelize.col("CommentLikes.commentId")), "likes"]],
-            include: [{ model: Users, as:'nickname', attributes: ['nickname']}, { model: CommentLikes, as:'Likes', attributes: ['commentId']}],
+            include: [{ model: Users, as:['nickname'], attributes: ['nickname']}, { model: CommentLikes, as:['Likes'], attributes: ['commentId']}],
             where: { postId },
             // group: ["Comments.commentId"],
             order: [["createdAt", "DESC"]],
@@ -23,7 +24,7 @@ class CommentRepository {
         const comment = await Comments.findOne({
             raw: true, // 모델 인스턴스가 아닌, 데이터만 반환.
             attributes: ['commentId', 'comment', 'createdAt', 'updatedAt', [sequelize.fn("COUNT", sequelize.col("CommentLikes.commentId")), "likes"]],
-            include: [{model: Users, attributes: ['nickname'], as: ['nickname']}, {model: PostLikes, attributes: ['postId'], as:['likes']}],
+            include: [{model: Users, attributes: ['nickname'], as: ['nickname']}, {model: CommentLikes, as:['Likes'], attributes: ['commentId']}],
             where: { commentId },
         })
         return comment;
@@ -33,8 +34,8 @@ class CommentRepository {
 
 
     // 3. 댓글 생성 createComment
-    createComment = async (postId, userId, comment) => {
-        const createCommentData = await Comments.create({postId, userId, comment})
+    createComment = async (PostId, UserId, comment) => {
+        const createCommentData = await Comments.create({PostId, UserId, comment})
         return createCommentData;
     }
 
