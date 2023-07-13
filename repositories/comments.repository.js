@@ -1,5 +1,7 @@
 const { Comments, CommentLikes, Users, PostLikes } = require('../models') // DB에 접근
 const sequelize = require("sequelize");
+const { Op } = require("sequelize");
+
 
 class CommentRepository {
 

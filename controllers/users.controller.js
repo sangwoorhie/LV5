@@ -30,6 +30,17 @@ class UsersController {
         res.status(200).json({message: "로그인이 완료되었습니다."});
     }
 
+    // 3. 로그아웃
+    logoutUser = async (req, res, next) => {
+    try {
+      res.clearCookie("Authorization");
+      return res.status(200).json({ message: '로그아웃 되었습니다.' });
+    } catch {
+      return res.status(400).json({ message: '로그아웃에 실패하였습니다.' });
+    }
+  };
+
+    
 
     // 3. 회원조회 getUser
     getUser = async(req, res, next) => {

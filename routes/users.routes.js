@@ -13,9 +13,10 @@ const usersController = new UsersController();
 // localhost:3000/api/users
 router.post('/signup', usersController.signupUser); // 1.회원가입
 router.post('/login', usersController.loginUser); // 2.로그인
-router.get('/:userId', usersController.getUser); // 3.회원정보조회
-router.patch('/:userId', usersController.updateUser); // 4.회원정보수정
-router.delete('/:userId', usersController.deleteUser); // 5.회원탈퇴
+router.post('/logout', Authmiddleware, usersController.logoutUser); // 3.로그아웃 
+router.get('/:userId', usersController.getUser); // 4.회원정보조회
+router.patch('/:userId', usersController.updateUser); // 5.회원정보수정
+router.delete('/:userId', usersController.deleteUser); // 6.회원탈퇴
 
 
 module.exports = router;

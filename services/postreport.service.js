@@ -7,10 +7,13 @@ class PostReportService {
     postRepository = new PostRepository();
 
 
-    // 1.게시글 신고
+    // 1.게시글 신고 생성
     createReport = async(postId, content, userId) => {
-        const createReport = await this.postReportRepository.createReport(postId, content, userId)
+        const clickedUser = await this.postReportRepository.clickedUser(postId, userId)
         if (!postId) {throw new Error('게시글이 존재하지 않습니다.')};
+        if (clickedUser) {throw new Error('이미 신고한 게시글입니다.')};
+
+        const createReport = await this.postReportRepository.createReport(postId, content, userId)
         if (!content) {throw new Error('정당한 신고 사유를 기재해주세요.')};
         if (!userId) {throw new Error('로그인 후 사용할 수 있는 기능입니다.')};
     

@@ -4,7 +4,7 @@ const router = express.Router();
 router.use(cookieParser());
 
 
-const usersRouter = require('./users.routes.js') // 1.회원가입, 2.로그인, 3.회원정보조회, 4.회원탈퇴
+const usersRouter = require('./users.routes.js') // 1.회원가입, 2.로그인, 3. 로그아웃 4.회원정보조회, 5.회원탈퇴
 const PostsRouter = require('./posts.routes.js') // 1.게시글생성, 2.게시글상세조회(+좋아요조회), 3.게시글목록조회(+좋아요조회), 4.게시글수정, 5.게시글삭제
 const PostlikesRouter = require('./postlikes.routes.js') // 1.게시글 좋아요생성, 2.게시글 좋아요취소
 const PostReportRouter = require('./postreport.routes.js') // 1.댓글신고 생성, 2.댓글신고 삭제
@@ -29,6 +29,7 @@ module.exports = router;
 
 // POST: localhost:3000/api/users/signup // 회원가입 { email, password, confirmPassword, nickname, age, gender, profileImage } (성공)
 // POST: localhost:3000/api/users/login  // 로그인 { email, password } (성공)
+// POST : localhost:3000/api/users/logout / // 로그아웃(성공)
 // GET: localhost:3000/api/users/:userId  // 회원조회 (성공)
 // PATCH: localhost:3000/api/users/:userId  // 회원정보수정 { nickname, password, confirmPassword, age, gender, profileImage } (성공)
 // DELETE: localhost:3000/api/users/:userId  // 회원탈퇴 { email, password }  (성공)

@@ -7,7 +7,11 @@ class PostRepository {
 
     // 1. 게시글 목록조회 findAllPost
     findAllPost = async () => {
-        const posts = await Posts.findAll();
+        const posts = await Posts.findAll({
+            raw: true,
+            include: [{model: Users, attributes:['nickname']}],
+            // where: { postId }
+        });
         return posts;
     }
 

@@ -13,15 +13,18 @@ class CommentReportService {
     createReport = async (postId, commentId, userId, content) => {
 
         const findPost = await this.postRepository.findPostById(postId);
-        if(!findPost) throw new Error('게시글이 존재하지 않습니다.');
-        else if (!userId) throw new Error('로그인 후 이용할 수 있는 기능입니다.');
-        else if (!content) throw new Error('정당한 신고 사유를 입력해주세요.');
+        if(!findPost) {throw new Error('게시글이 존재하지 않습니다.')}
+        else if (!userId) {throw new Error('로그인 후 이용할 수 있는 기능입니다.')}
+        else if (!content) {throw new Error('정당한 신고 사유를 입력해주세요.')}
 
         const findComment = await this.commentRepository.findCommentById(commentId)
-        if (!findComment) throw new Error('댓글이 존재하지 않습니다.');
+        if (!findComment) {throw new Error('댓글이 존재하지 않습니다.')};
 
-        await this.commentReportRepository.createReport(postId, commentId, userId, content)
-        const createReport = await this.commentRepository.findCommentById(commentId);
+        const clickedUser = await this.commentReportRepository.clickedUser(commentId, userId)
+        if(clickedUser){throw new Error('이미 신고한 댓글입니다.')};
+
+        const createReport = await this.commentReportRepository.createReport(postId, commentId, userId, content)
+        // const createReport = await this.commentRepository.findCommentById(commentId);
 
 
         return {
@@ -43,8 +46,12 @@ class CommentReportService {
         const findComment = await this.commentRepository.findCommentById(commentId);
         if (!findComment) throw new Error('댓글이 존재하지 않습니다.');
         
+        const clickedUser = await this.commentReportRepository.clickedUser(commentId, userId)
+        if(!clickedUser){throw new Error('본인이 신고한 댓글만 신고 취소가 가능합니다.')};
+
+
         const destroy = await this.commentReportRepository.deleteReport(postId, commentId, userId)
-        const deleteReport = await this.commentRepository.findCommentById(commentId);
+        // const deleteReport = await this.commentRepository.findCommentById(commentId);
 
         return {
             postId: destroy.postId,

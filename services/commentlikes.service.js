@@ -28,11 +28,14 @@ class CommentLikeService {
         const findComment = await this.commentRepository.findCommentById(commentId)
         if(!findComment) {throw new Error('댓글이 존재하지 않습니다.')}
 
-        await this.commentLikeRepository.createLike(postId, commentId, userId)
-        const createLike = await this.commentRepository.findCommentById(commentId)
+        const clickedUser = await this.commentLikeRepository.clickedUser(commentId, userId);
+        if(clickedUser) {throw new Error('이미 좋아요를 누른 댓글입니다.')}
+
+        const createLike = await this.commentLikeRepository.createLike(postId, commentId, userId)
+        const likeCount = await this.commentLikeRepository.likeCount(commentId); // 좋아요 수
+        // const createLike = await this.commentRepository.findCommentById(commentId)
         
         
-        // 이미 좋아요누른경우 못누르게 만들어야 함
 
         return {
             likeId: createLike.likeId,
@@ -40,7 +43,8 @@ class CommentLikeService {
             commentId: createLike.commentId,
             UserId: createLike.UserId,
             createdAt: createLike.createdAt,
-            updatedAt: createLike.updatedAt
+            updatedAt: createLike.updatedAt,
+            likeCount: likeCount.likeCount
         }}; 
 
 
@@ -55,12 +59,13 @@ class CommentLikeService {
         const findComment = await this.commentRepository.findCommentById(commentId)
         if(!findComment) {throw new Error('댓글이 존재하지 않습니다.')}
 
-        await this.commentLikeRepository.deleteLike(postId, commentId, userId)
-        const deleteLike = await this.commentRepository.findCommentById(commentId)
-        
-        
-        // 본인이 누른 좋아요만 취소가능하게 해야함
+        const clickedUser = await this.commentLikeRepository.clickedUser(commentId, userId);
+        if(!clickedUser) {throw new Error('본인이 누른 좋아요만 취소가 가능합니다.')}
 
+        const deleteLike = await this.commentLikeRepository.deleteLike(postId, commentId, userId)
+        // const deleteLike = await this.commentRepository.findCommentById(commentId)
+       
+        
         return {
             likeId: deleteLike.likeId,
             PostId: deleteLike.PostId,

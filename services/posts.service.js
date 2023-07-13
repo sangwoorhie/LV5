@@ -18,7 +18,7 @@ class PostService {
                 postId: post.postId,
                 title: post.title,
                 createdAt : post.createdAt,
-                updatedAt: post.updatedAt
+                updatedAt: post.updatedAt,
             }}
         )};
 

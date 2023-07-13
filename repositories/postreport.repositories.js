@@ -1,4 +1,5 @@
 const { PostReport } = require('../models')
+const { Op } = require("sequelize");
 
 class PostReportRepository {
 
@@ -10,6 +11,11 @@ createReport = async (postId, content, userId) => {
     return createReport;
 }
 
+// 게시글 신고 이미 누른 유저
+clickedUser = async (postId, userId) => {
+    const clickedUser = await PostReport.findOne({ where: {[Op.and]: [{PostId: Number(postId)}, {reportUserId: Number(userId)}]}});
+    return clickedUser;
+}
 
 
 // 2. 게시글 신고 취소
