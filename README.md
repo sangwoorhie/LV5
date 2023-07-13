@@ -54,7 +54,7 @@
 
 5. Comments (댓글 조회, 댓글 생성, 댓글 수정, 댓글 삭제)
 
-(1). 댓글 상세조회 (GET) => /posts/:postId/comments
+(1). 댓글 조회 (GET) => /posts/:postId/comments
 
 (2). 댓글 생성 (POST) => /posts/:postId/comments
 
