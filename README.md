@@ -1,5 +1,6 @@
 # LV5 API  : localhost:3000/api/
 
+![image](https://github.com/sangwoorhie/LV5/assets/131964697/b93c14e8-3ace-4174-87f0-1250f96c0712)
 
 1. Users (회원가입, 로그인, 로그아웃, 회원정보조회, 회원정보수정, 회원탈퇴)
 
