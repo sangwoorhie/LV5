@@ -25,6 +25,7 @@ app.listen(port, () => {
 
 // POST: localhost:3000/api/users/signup // 회원가입 { email, password, confirmPassword, nickname, age, gender, profileImage } (성공)
 // POST: localhost:3000/api/users/login  // 로그인 { email, password } (성공)
+// POST: localhost:3000/api/users/logout // 로그아웃
 // GET: localhost:3000/api/users/:userId  // 회원조회 (성공)
 // PATCH: localhost:3000/api/users/:userId  // 회원정보수정 { nickname, password, confirmPassword, age, gender, profileImage } (성공)
 // DELETE: localhost:3000/api/users/:userId  // 회원탈퇴 { email, password }  (성공)
