@@ -4,8 +4,7 @@
 
 1. Users (회원가입, 로그인, 로그아웃, 회원정보조회, 회원정보수정, 회원탈퇴)
 
-(1). 회원가임 (POST) => /users/signup
-
+(1). 회원가입 (POST) => /users/signup
 (2). 로그인 (POST) => /users/login 
 
 (3). 로그아웃(POST) => /users/logout
