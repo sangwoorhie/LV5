@@ -9,8 +9,8 @@ class PostReportController {
         const { postId } = req.params;
         const { content } = req.body;
         const { userId } = res.locals.user;
-        const postReport = await this.postReportService.createReport(postId, content, userId);
-        res.status(201).json({data: postReport, message: "게시글 신고가 완료되었습니다."})
+        const {status, message} = await this.postReportService.createReport(postId, content, userId);
+        res.status(status).json({message})
     };
 
 
@@ -18,8 +18,8 @@ class PostReportController {
     deleteReport = async (req, res, next) => {
         const { postId } = req.params;
         const { userId } = res.locals.user;
-        const postReportCancel = await this.postReportService.deleteReport(postId, userId);
-        res.status(201).json({data: postReportCancel, message: "게시글 신고가 취소되었습니다."})
+        const {status, message} = await this.postReportService.deleteReport(postId, userId);
+        res.status(status).json({message})
     }
 
 

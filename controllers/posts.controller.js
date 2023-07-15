@@ -12,16 +12,16 @@ class PostsController {
     
     // 1. 게시글 목록조회  getPosts
     getPosts = async (req, res, next) => {
-        const posts = await this.postService.findAllPost();
-        res.status(200).json({data: posts});
+        const {status, message, data} = await this.postService.findAllPost();
+        res.status(status).json({message, data});
     }
 
     
     // 2. 게시글 상세조회 getPostById
     getPostById = async (req, res, next) => {
         const { postId } = req.params;
-        const post = await this.postService.findPostById(postId);
-        res.status(200).json({data: post});
+        const {status, message, post} = await this.postService.findPostById(postId);
+        res.status(status).json({message, post});
     }
 
  
@@ -29,8 +29,8 @@ class PostsController {
     createPost = async (req, res, next) => {
         const { userId } = res.locals.user;
         const { title, content } = req.body;
-        const createPostData = await this.postService.createPost(userId, title, content); // 여기서 이 인자들을 실제로 생성하는게 아니라, service로 넘겨보내주는 인자값들이다.
-        res.status(201).json({data: createPostData, message: "게시글이 등록되었습니다."})
+        const { status, message } = await this.postService.createPost(userId, title, content); // 여기서 이 인자들을 실제로 생성하는게 아니라, service로 넘겨보내주는 인자값들이다.
+        res.status(status).json({message});
     }
 
 
@@ -39,8 +39,8 @@ class PostsController {
         const { userId } = res.locals.user;
         const { postId } = req.params;
         const { title, content } = req.body;
-        const updatePost = await this.postService.updatePost(userId, postId, title, content);
-        res.status(200).json({data: updatePost, message: "게시글이 수정되었습니다."})
+        const { status, message } = await this.postService.updatePost(userId, postId, title, content);
+        res.status(status).json({message})
     }
 
 
@@ -48,8 +48,8 @@ class PostsController {
     deletePost = async (req, res, next) => {
         const { userId } = res.locals.user;
         const { postId } = req.params;
-        const deletePost = await this.postService.deletePost(userId, postId);
-        res.status(200).json({data: deletePost, message: "게시글이 삭제되었습니다."})
+        const { status, message } = await this.postService.deletePost(userId, postId);
+        res.status(status).json({message})
     }
 }
 

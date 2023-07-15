@@ -19,10 +19,11 @@ class UsersRepository {
 
 
     // 2. 로그인 findByEmail
-    findByEmail = async (email, password) => {
-        const user = await Users.findOne({ where: {email: email, password: password} });
+    findByEmail = async (email) => {
+        const user = await Users.findOne({ where: {email} });
         return user;
     }
+
 
 
 
@@ -35,9 +36,9 @@ class UsersRepository {
 
 
     // 4. 회원정보 수정 
-    updateUser = async (userId, nickname, password, age, gender, profileImage) => {
+    updateUser = async (userId, nickname, newPassword, age, gender, profileImage) => {
         const UpdateUserData = await Users.update(
-            { nickname, password, age, gender, profileImage },
+            { nickname, newPassword, age, gender, profileImage },
             { where: {userId}}
         )
         return UpdateUserData;

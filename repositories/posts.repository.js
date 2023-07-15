@@ -8,9 +8,10 @@ class PostRepository {
     // 1. 게시글 목록조회 findAllPost
     findAllPost = async () => {
         const posts = await Posts.findAll({
-            raw: true,
-            include: [{model: Users, attributes:['nickname']}],
-            // where: { postId }
+            raw: true, // 모델 인스턴스가 아닌 데이터만 반환
+            attributes: ['postId', 'title', 'createdAt', 'updatedAt'],
+            include: [{model: Users, attributes:['nickname'], as:['nickname']}],
+            order: [['createdAt', 'DESC']]
         });
         return posts;
     }
@@ -49,7 +50,7 @@ class PostRepository {
     // 4. 게시글 수정 updatePost 
     updatePost = async (postId, title, content) => {
         const updatePostData = await Posts.update(
-            { title, content},
+            { title, content },
             { where: { postId } }
         );
         return updatePostData;

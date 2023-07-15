@@ -10,93 +10,128 @@ class PostService {
 
     // 1. 게시글 목록조회 findAllPost
     findAllPost = async () => {
+try{
         const allPost = await this.postRepository.findAllPost();
-        
-        allPost.sort ((a, b) => { return b.createdAt - a.createdAt});
-        return allPost.map((post) => { // 새로운배열로 만듦
-            return {
-                postId: post.postId,
-                title: post.title,
-                createdAt : post.createdAt,
-                updatedAt: post.updatedAt,
-            }}
-        )};
+        if(!allPost) {return {status:404, message: "게시글이 존재하지 않습니다.", data: null}}
+        if(allPost){
+        return {
+            status:200,
+            message: "게시글 목록이 조회되었습니다.",
+            data: allPost
+        }}
+}catch(error){
+    console.log(error);
+    return{status:400, message: "요청이 정상적으로 이루어지지 않았습니다.", data: null}
+}
+    };
+
+        // allPost.sort ((a, b) => { return b.createdAt - a.createdAt});
+        // return allPost.map((post) => { // 새로운배열로 만듦
+        //     return {
+        //         postId: post.postId,
+        //         title: post.title,
+        //         nickname: post.nickname,
+        //         createdAt : post.createdAt,
+        //         updatedAt: post.updatedAt,
+        //     }}
+        // )
+    
+
 
             
 
     // 2. 게시글 상세조회 findPostById 
     findPostById = async (postId) => {
+    try{
         const findPost = await this.postRepository.findPostById(postId);
-        if(!findPost) throw new Error('게시글이 존재하지 않습니다.');
-
+        if(!findPost) {return {status:404, message: "게시글이 존재하지 않습니다.", post: null}};
+        if(findPost)
         return {
-            postId:findPost.postId,
-            userId:findPost.userId,
-            title:findPost.title,
-            nickname:findPost.nickname,
-            likes:findPost.likes,
-            content:findPost.content,
-            createdAt:findPost.createdAt,
-            updatedAt:findPost.updatedAt
-        }};
+            status:200,
+            message:"게시글이 조회되었습니다.",
+            post:{
+                postId:findPost.postId,
+                userId:findPost.userId,
+                title:findPost.title,
+                nickname:findPost.nickname,
+                likes:findPost.likes,
+                content:findPost.content,
+                createdAt:findPost.createdAt,
+                updatedAt:findPost.updatedAt
+        }}
+    }catch(error){
+        console.log(error);
+        return{status:400, message: "요청이 정상적으로 이루어지지 않았습니다.", data: null}
+    }};
+    
     
 
 
     // 3. 게시글 생성 createPost
     createPost = async (UserId, title, content) => {
-        const createPostData = await this.postRepository.createPost(title, content, UserId);
-        if(!UserId) throw new Error('로그인 후 이용할 수 있는 기능입니다.');
-        else if (!title) throw new Error('제목을 입력해주세요.');
-        else if (!content) throw new Error('내용을 입력해주세요.');
+    try{
+        if(!UserId) {return {status:403, message: "로그인 후 이용할 수 있는 기능입니다."}}
+        else if (!title) {return {status:412, message: "제목을 입력해주세요."}}
+        else if (!content) {return {status:412, message: "내용을 입력해주세요."}}
 
+        await this.postRepository.createPost(UserId, title, content);
+        
         return {
-            postId: createPostData.postId,
-            UserId: createPostData.UserId,
-            title: createPostData.title,
-            content: createPostData.content,
-            createdAt: createPostData.createdAt,
-            updatedAt: createPostData.updatedAt
-        }};
+            status:200,
+            message: "게시글이 등록되었습니다."
+        }
+    }catch(error){
+        console.log(error);
+        return {tatus:400, message: "요청이 정상적으로 이루어지지 않았습니다."}
+    }};
 
 
 
     // 4. 게시글 수정 updatePost 
     updatePost = async (userId, postId, title, content) => {
+    try{
+        if(!userId) {return {status:403, message: "게시글 수정 권한이 없습니다."}}
+        else if (!title) {return {status:412, message: "제목을 입력해주세요."}}
+        else if (!content) {return {status:412, message: "내용을 입력해주세요."}}
+
         const findPost = await this.postRepository.findPostById(postId);
-        if (!findPost) throw new Error("게시글이 존재하지 않습니다.")
-        else if (!userId) throw new Error("게시글 수정 권한이 없습니다.")
-        else if (!title) throw new Error("제목을 입력해주세요.")
-        else if (!content) throw new Error("내용을 입력해주세요.")
+        if (!findPost) {return {status:404, message: "게시글이 존재하지 않습니다."}}
+
 
         await this.postRepository.updatePost(postId, title, content)
-        const updatePost = await this.postRepository.findPostById(postId);
+        // const updatePost = await this.postRepository.findPostById(postId);
+
         return {
-            postId: updatePost.postId,
-            userId: updatePost.userId,
-            title: updatePost.title,
-            content: updatePost.content,
-            createdAt: updatePost.createdAt,
-            updatedAt: updatePost.updatedAt
-        }};
+            status:200,
+            message: "게시글이 수정되었습니다."
+        }
+    }catch(error){
+        console.log(error);
+        return {tatus:400, message: "요청이 정상적으로 이루어지지 않았습니다."}
+    }
+    };
 
 
 
     // 5. 게시글 삭제 deletePost 
     deletePost = async (userId, postId) => {
+    try{
+        if(!userId) {return {status:403, message: "게시글 삭제 권한이 없습니다."}}
+        if(!postId) {return {status:404, message: "게시글이 조회되지 않습니다."}}
+
         const findPost = await this.postRepository.findPostById(postId);
-        if (!findPost) throw new Error("게시글이 존재하지 않습니다.")
-        else if(!userId) throw new Error("게시글 삭제 권한이 없습니다.")
+        if (!findPost) {return {status:404, message: "게시글이 존재하지 않습니다."}}
 
         await this.postRepository.deletePost(postId);
 
         return {
-            postId: findPost.postId,
-            userId: findPost.userId,
-            title: findPost.title,
-            content: findPost.content,
-            createdAt: findPost.createdAt,
-            updatedAt: findPost.updatedAt
-        }};
+            status:200,
+            message: "게시글이 삭제되었습니다."
+        }
+    }catch(error){
+        console.log(error);
+        return {tatus:400, message: "요청이 정상적으로 이루어지지 않았습니다."}
+    }};
     }
 
 

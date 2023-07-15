@@ -5,8 +5,8 @@ const port = 3000
 
 const router = require('./routes')
 
-app.use(cookieParser());
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.static("assets")); // assets이라는 폴더를 만들면 그 안에 폴더들은  html, css, js, 이미지 등 "정적 파일"에 대한 기본 경로를 제공해 준다
 app.use(express.urlencoded({ extended: false })); // 즉 locathost:3018/index.html 브라우저에서 연결가능.
 app.use('/api', router)
@@ -50,7 +50,7 @@ app.listen(port, () => {
 // POST: localhost:3000/api/posts/:postId/comments/:commentId/like // 댓글 좋아요  (성공)
 // DELETE: localhost:3000/api/posts/:postId/comments/:commentId/like // 댓글 좋아요 취소 (성공)
 
-// POSt: localhost:3000/api/posts/:postId/comments/:commentId/report  // 댓글 신고 { content } (성공)
+// POST: localhost:3000/api/posts/:postId/comments/:commentId/report  // 댓글 신고 { content } (성공)
 // DELETE: localhost:3000/api/posts/:postId/comments/:commentId/report  // 댓글 신고취소 (성공)
 
 

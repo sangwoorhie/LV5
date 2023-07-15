@@ -56,6 +56,7 @@ module.exports = (sequelize, DataTypes) => {
       nickname: {
         allowNull: false, // NOT NULL
         type: DataTypes.STRING,
+        unique: true,
       },
       age: {
         allowNull: false, // NOT NULL
@@ -77,6 +78,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false, // NOT NULL
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
+      },
+      token: {
+        type: DataTypes.STRING,
       },
     },
     {

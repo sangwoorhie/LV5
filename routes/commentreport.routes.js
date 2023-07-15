@@ -8,8 +8,8 @@ const CommentReportController = require('../controllers/commentreport.controller
 const commentReportController = new CommentReportController();
 
 
-router.post('/:postId/comments/:commentId/report', Authmiddleware, commentReportController.createReport)
-router.delete('/:postId/comments/:commentId/report', Authmiddleware, commentReportController.deleteReport)
+router.post('/:postId/comments/:commentId/report', Authmiddleware, commentReportController.createReport) // 댓글 신고 생성
+router.delete('/:postId/comments/:commentId/report', Authmiddleware, commentReportController.deleteReport) // 댓글 신고 취소
 
 
 module.exports = router;

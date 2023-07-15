@@ -16,8 +16,8 @@ class PostLikesController {
 createPostLikes = async (req, res, next) => {
     const { postId } = req.params;
     const { userId } = res.locals.user;
-    const createLike = await this.postLikeService.createLike(postId, userId)
-    res.status(201).json({data: createLike, message: "게시글에 좋아요를 눌렀습니다."})
+    const {status, message} = await this.postLikeService.createLike(postId, userId)
+    res.status(status).json({message})
 };
 
 
@@ -27,8 +27,8 @@ createPostLikes = async (req, res, next) => {
 deletePostLikes = async(req, res, next) => {
     const { postId } = req.params;
     const { userId } = res.locals.user;
-    const deleteLike = await this.postLikeService.deleteLike(postId, userId)
-    res.status(201).json({data: deleteLike, message: "게시글 좋아요가 취소되었습니다."})
+    const {status, message} = await this.postLikeService.deleteLike(postId, userId)
+    res.status(status).json({message})
 }
 
 };

@@ -11,55 +11,50 @@ class CommentReportService {
 
     // 1. 댓글 신고
     createReport = async (postId, commentId, userId, content) => {
+        if (!postId) {return {status:404, message: "게시글이 조회되지 않습니다."}}
+        else if (!commentId) {return {status:404, message: "댓글이 조회되지 않습니다."}}
+        else if (!content) {return {status:412, message: "정당한 신고 사유를 작성해주세요."}}
+        else if (!userId) {return {status:403, message: "로그인 후 사용할 수 있는 기능입니다."}}
 
         const findPost = await this.postRepository.findPostById(postId);
-        if(!findPost) {throw new Error('게시글이 존재하지 않습니다.')}
-        else if (!userId) {throw new Error('로그인 후 이용할 수 있는 기능입니다.')}
-        else if (!content) {throw new Error('정당한 신고 사유를 입력해주세요.')}
+        if(!findPost) {return {status:404, message: "게시글이 존재하지 않습니다."}}
 
         const findComment = await this.commentRepository.findCommentById(commentId)
-        if (!findComment) {throw new Error('댓글이 존재하지 않습니다.')};
+        if (!findComment) {return {status:404, message: "댓글이 존재하지 않습니다."}}
 
         const clickedUser = await this.commentReportRepository.clickedUser(commentId, userId)
-        if(clickedUser){throw new Error('이미 신고한 댓글입니다.')};
+        if(clickedUser){return {status:403, message: "이미 신고한 댓글입니다."}}
 
         const createReport = await this.commentReportRepository.createReport(postId, commentId, userId, content)
         // const createReport = await this.commentRepository.findCommentById(commentId);
-
-
         return {
-            postId: createReport.postId,
-            commentId: createReport.commentId,
-            content: createReport.content,
-            reportUserId: createReport.reportUserId,
-            createdAt: createReport.createdAt,
-            updatedAt: createReport.updatedAt
+            status: 200,
+            message: "댓글이 신고되었습니다."
         }};
 
 
     // 2. 댓글 신고 취소
     deleteReport = async (postId, commentId, userId) => {
-        const findPost = await this.postRepository.findPostById(postId);
-        if(!findPost) throw new Error('게시글이 존재하지 않습니다.');
-        else if (!userId) throw new Error('댓글신고 취소 권한이 없습니다.');
+        if (!postId) {return {status:404, message: "게시글이 조회되지 않습니다."}}
+        else if (!commentId) {return {status:404, message: "댓글이 조회되지 않습니다."}}
+        else if (!userId) {return {status:403, message: "로그인 후 사용할 수 있는 기능입니다."}}
 
-        const findComment = await this.commentRepository.findCommentById(commentId);
-        if (!findComment) throw new Error('댓글이 존재하지 않습니다.');
+        const findPost = await this.postRepository.findPostById(postId);
+        if(!findPost) {return {status:404, message: "게시글이 존재하지 않습니다."}}
+
+        const findComment = await this.commentRepository.findCommentById(commentId)
+        if (!findComment) {return {status:404, message: "댓글이 존재하지 않습니다."}}
         
         const clickedUser = await this.commentReportRepository.clickedUser(commentId, userId)
-        if(!clickedUser){throw new Error('본인이 신고한 댓글만 신고 취소가 가능합니다.')};
+        if(!clickedUser) {return {status:403, message: "본인이 신고한 댓글만 취소가 가능합니다."}}
 
 
-        const destroy = await this.commentReportRepository.deleteReport(postId, commentId, userId)
+        await this.commentReportRepository.deleteReport(postId, commentId, userId)
         // const deleteReport = await this.commentRepository.findCommentById(commentId);
 
         return {
-            postId: destroy.postId,
-            commentId: destroy.commentId,
-            content: destroy.content,
-            reportUserId: destroy.reportUserId,
-            createdAt: destroy.createdAt,
-            updatedAt: destroy.updatedAt
+            status: 200,
+            message: "댓글 신고를 취소했습니다."
         }};
 
 }
