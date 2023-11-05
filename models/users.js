@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     /**
@@ -11,27 +11,29 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
 
       // 1. Users모델 - Posts모델 1:N 관계
-      this.hasMany(models.Posts, { // 2. Posts 모델에게 1:N 관계 설정을 합니다.
-        sourceKey: 'userId', // 3. Users 모델의 userId 컬럼을
-        foreignKey: 'UserId', // 4. Posts 모델의 UserId 컬럼과 연결합니다.
+      this.hasMany(models.Posts, {
+        // 2. Posts 모델에게 1:N 관계 설정을 합니다.
+        sourceKey: "userId", // 3. Users 모델의 userId 컬럼을
+        foreignKey: "UserId", // 4. Posts 모델의 UserId 컬럼과 연결합니다.
       });
 
       // 1. Users모델 - Comments모델 1:N 관계
-      this.hasMany(models.Comments, { // 2. Comments 모델에게 1:N 관계 설정을 합니다.
-        sourceKey: 'userId', // 3. Users 모델의 userId 컬럼을
-        foreignKey: 'UserId', // 4. Comments 모델의 UserId 컬럼과 연결합니다.
+      this.hasMany(models.Comments, {
+        // 2. Comments 모델에게 1:N 관계 설정을 합니다.
+        sourceKey: "userId", // 3. Users 모델의 userId 컬럼을
+        foreignKey: "UserId", // 4. Comments 모델의 UserId 컬럼과 연결합니다.
       });
 
       // 1. Users모델 - Comments모델 1:N 관계
-      this.hasMany(models.PostLikes, { 
-        sourceKey: 'userId', 
-        foreignKey: 'UserId', 
+      this.hasMany(models.PostLikes, {
+        sourceKey: "userId",
+        foreignKey: "UserId",
       });
 
       // 1. Users모델 - Comments모델 1:N 관계
-      this.hasMany(models.CommentLikes, { 
-        sourceKey: 'userId', 
-        foreignKey: 'UserId', 
+      this.hasMany(models.CommentLikes, {
+        sourceKey: "userId",
+        foreignKey: "UserId",
       });
     }
   }
@@ -85,7 +87,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Users',
+      modelName: "Users",
     }
   );
   return Users;

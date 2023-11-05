@@ -1,35 +1,38 @@
-const CommentLikeService = require('../services/commentlikes.service');
-
+const CommentLikeService = require("../services/commentlikes.service");
 
 class CommentLikesController {
-    commentLikeService = new CommentLikeService();
+  commentLikeService = new CommentLikeService();
 
-// // 1. 댓글 좋아요 조회
-// getCommentLikes = async (req, res, next) => {
-//     const { postId, commentId } = req.params;
-//     const commentLikes = await this.commentLikeService.findCommentById(postId, commentId)
-//     res.status(200).json({data: commentLikes})
-// }
+  // // 1. 댓글 좋아요 조회
+  // getCommentLikes = async (req, res, next) => {
+  //     const { postId, commentId } = req.params;
+  //     const commentLikes = await this.commentLikeService.findCommentById(postId, commentId)
+  //     res.status(200).json({data: commentLikes})
+  // }
 
-
-// 2. 댓글 좋아요 생성
-createCommentLikes = async (req, res, next) => {
+  // 2. 댓글 좋아요 생성
+  createCommentLikes = async (req, res, next) => {
     const { postId, commentId } = req.params;
     const { userId } = res.locals.user;
-    const { status, message } = await this.commentLikeService.createLike(postId, commentId, userId);
-    res.status(status).json({message})
-}
+    const { status, message } = await this.commentLikeService.createLike(
+      postId,
+      commentId,
+      userId
+    );
+    res.status(status).json({ message });
+  };
 
-
-// 3. 댓글 좋아요 삭제
-deleteCommentLikes = async (req, res, next) => {
+  // 3. 댓글 좋아요 삭제
+  deleteCommentLikes = async (req, res, next) => {
     const { postId, commentId } = req.params;
     const { userId } = res.locals.user;
-    const  { status, message } = await this.commentLikeService.deleteLike(postId, commentId, userId)
-    res.status(status).json({message})
+    const { status, message } = await this.commentLikeService.deleteLike(
+      postId,
+      commentId,
+      userId
+    );
+    res.status(status).json({ message });
+  };
 }
-
-
-};
 
 module.exports = CommentLikesController;
